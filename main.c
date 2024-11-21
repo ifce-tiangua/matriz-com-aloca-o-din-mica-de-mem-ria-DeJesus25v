@@ -1,50 +1,71 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-void imprimir_matriz(int **mat, int colunas, int linhas) {
-    if (linhas == 0 || colunas == 0) {
+void imprime_histograma(int* vendas[],int num_categorias);
+void imprime_linha(int *venda);
+
+int main(){
+    int linha, coluna, i, j;
+    scanf("%d",&linha);
+    getchar();
+    scanf("%d",&coluna);
+
+    getchar();
+
+    if(linha == 0){
         printf("[matriz vazia]");
-        return;
+        return 0; 
     }
-    for (int l = 0; l < linhas; l++) {
-        for (int c = 0; c < colunas; c++) {
-            printf("%d", mat[l][c]);
-            if (c < colunas - 1) {
-                printf(" ");
-            }
+
+    if(coluna == 0){
+        printf("vazio");
+        return 0; 
+    }
+    int **vetor = (int**)malloc(linha * sizeof(int*));
+
+    for (i = 0; i < linha; i++){
+        vetor[i] = (int*)malloc(coluna * sizeof(int));
+    }
+
+    for (i = 0; i < linha; i++){
+        for(j = 0; j < coluna; j++){
+            scanf("%d",&vetor[i][j]);
+            if(j == coluna-1){
+                printf("%d",vetor[i][j]);
+
+
+            }else{
+                printf("%d ",vetor[i][j]);            
+            }   
         }
         printf("\n");
     }
-}
 
-void destroi_matriz(int **mat, int linhas) {
-    for (int l = 0; l < linhas; l++) {
-        free(mat[l]);
-    }
-    free(mat);
-}
+    //imprime_histograma(vetor,qtd);
 
-int main() {
-    int lin, col;
-
-    scanf("%d", &lin);
-    scanf("%d", &col);
-
-    int **matriz;
-
-    matriz = (int **)malloc(lin * sizeof(int *));
-    for (int i = 0; i < lin; i++) {
-        matriz[i] = (int *)malloc(col * sizeof(int));
+    for (i = 0; i < linha; i++)
+    {
+        free(vetor[i]);
     }
 
-    for (int l = 0; l < lin; l++) {
-        for (int c = 0; c < col; c++) {
-            scanf("%d", &matriz[l][c]);
-        }
-    }
-
-    imprimir_matriz(matriz, col, lin);
-    destroi_matriz(matriz, lin);
+    free(vetor);
 
     return 0;
+}
+
+void imprime_histograma(int *vendas[],int num_categorias){
+    int i;
+    for(i = 0;i < num_categorias;i++){
+        imprime_linha(vendas[i]);
+    }
+}
+
+void imprime_linha(int *venda){
+    int i;
+    printf("%d ",*venda);
+    for(i = 0; i < *venda;i++){
+        printf("*");
+    }
+    printf("\n");
 }
